@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-previsions',
   templateUrl: './previsions.page.html',
   styleUrls: ['./previsions.page.scss'],
-  standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  standalone: false,
 })
 export class PrevisionsPage {}

@@ -6,7 +6,12 @@
 
 <ion-content>
   <ion-list>
-    <ion-item routerLink="/recherche">Rechercher une ville</ion-item>
-    <ion-item routerLink="/favoris">Voir les favoris</ion-item>
+    <ion-item [routerLink]="'/recherche'">
+      <ion-label>Rechercher une ville</ion-label>
+    </ion-item>
+
+    <ion-item routerLink="/favoris">
+      <ion-label>Voir les favoris</ion-label>
+    </ion-item>
   </ion-list>
 </ion-content>

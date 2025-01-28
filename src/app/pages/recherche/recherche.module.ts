@@ -1,15 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RecherchePage } from './recherche.page';
+import { RecherchePageRoutingModule } from './recherche-routing.module';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
     path: '',
-    component: RecherchePage, // Utilisation directe du composant autonome
+    component: RecherchePage,
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RecherchePageRoutingModule
+  ],
+  declarations: [RecherchePage]
 })
 export class RecherchePageModule {}

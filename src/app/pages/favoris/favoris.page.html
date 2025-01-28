@@ -5,15 +5,19 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let city of favoriteCities" (click)="viewCityDetails(city)">
-      {{ city }}
-    </ion-item>
-  </ion-list>
-
-  <ion-item>
-    <ion-label position="floating">Ajouter une ville</ion-label>
-    <ion-input [(ngModel)]="newFavorite"></ion-input>
-  </ion-item>
-  <ion-button expand="full" (click)="addFavorite()">Ajouter</ion-button>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let city of favoriteCities">
+        <ion-card (click)="viewCityDetails(city)">
+          <ion-card-header>
+            <ion-card-title>{{ city.name }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Température : {{ cityWeather[city.name]?.temperature || '--' }}°C</p>
+            <p>Code météo : {{ cityWeather[city.name]?.weathercode || '--' }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-accueil',
   templateUrl: './accueil.page.html',
   styleUrls: ['./accueil.page.scss'],
-  standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  standalone: false,
 })
 export class AccueilPage {}

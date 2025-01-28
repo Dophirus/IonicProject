@@ -10,4 +10,10 @@
     <ion-input [(ngModel)]="cityName"></ion-input>
   </ion-item>
   <ion-button expand="full" (click)="searchCity()">Rechercher</ion-button>
+
+  <div *ngIf="weather">
+    <h2>Météo actuelle pour {{ cityName }}</h2>
+    <p>Température : {{ weather.temperature }}°C</p>
+    <p>Conditions : {{ weather.weathercode }}</p>
+  </div>
 </ion-content>

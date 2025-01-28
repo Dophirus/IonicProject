@@ -1,13 +1,16 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>detail-ville</ion-title>
+    <ion-title>Détail Ville</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">detail-ville</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <h2>Prévisions météo pour {{ cityName }}</h2>
+  <ion-list>
+    <ion-item *ngFor="let day of forecast">
+      <p>Date : {{ day.date }}</p>
+      <p>Température max : {{ day.temp_max }}°C</p>
+      <p>Température min : {{ day.temp_min }}°C</p>
+    </ion-item>
+  </ion-list>
 </ion-content>
