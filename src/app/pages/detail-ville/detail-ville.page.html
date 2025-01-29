@@ -1,16 +1,15 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Détail Ville</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/favoris"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Détails pour {{ cityName }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <h2>Prévisions météo pour {{ cityName }}</h2>
-  <ion-list>
-    <ion-item *ngFor="let day of forecast">
-      <p>Date : {{ day.date }}</p>
-      <p>Température max : {{ day.temp_max }}°C</p>
-      <p>Température min : {{ day.temp_min }}°C</p>
-    </ion-item>
-  </ion-list>
+  <p>Latitude : {{ latitude }}</p>
+  <p>Longitude : {{ longitude }}</p>
+
+  <ion-button expand="full" (click)="goToPrevisions()">Voir les prévisions</ion-button>
 </ion-content>

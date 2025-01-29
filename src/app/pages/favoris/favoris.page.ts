@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WeatherService } from '../../services/weather.service';
+import { FavorisService } from '../../services/favoris.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,31 +13,51 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class FavorisPage {
-  favoriteCities: { name: string; latitude: number; longitude: number }[] = [
-    { name: 'Paris', latitude: 48.8566, longitude: 2.3522 },
-    { name: 'New York', latitude: 40.7128, longitude: -74.006 },
-    { name: 'Tokyo', latitude: 35.6895, longitude: 139.6917 },
-  ]; // Exemple de villes favorites
-  cityWeather: { [key: string]: any } = {}; // Stocke les données météo pour chaque ville
+  favoriteCities: any[] = [];
+  cityWeather: { [key: string]: any } = {};
 
-  constructor(private weatherService: WeatherService, private router: Router) {}
+  constructor(
+    private favorisService: FavorisService,
+    private weatherService: WeatherService,
+    private router: Router
+  ) {}
 
-  // Chargement des données météo pour les villes favorites
-  async ionViewWillEnter() {
-    for (const city of this.favoriteCities) {
-      this.weatherService
-        .getWeatherByCity(city.latitude, city.longitude)
-        .subscribe((data: any) => {
-          this.cityWeather[city.name] = {
-            temperature: data.current_weather.temperature,
-            weathercode: data.current_weather.weathercode,
-          };
-        });
-    }
+  ngOnInit() {
+    this.loadFavorites();
   }
 
-  // Navigation vers la page Détail Ville
-  viewCityDetails(city: { name: string; latitude: number; longitude: number }) {
+  loadFavorites() {
+    this.favoriteCities = this.favorisService.getFavorites();
+  
+    this.favoriteCities.forEach((city) => {
+      this.weatherService
+        .getWeatherByCity(city.latitude, city.longitude)
+        .subscribe({
+          next: (data: any) => {
+            const currentWeather = data.current_weather;
+            const dailyWeather = data.daily;
+  
+            this.cityWeather[city.name] = {
+              temperature: currentWeather.temperature,
+              weatherCode: currentWeather.weathercode,
+              minTemp: dailyWeather.temperature_2m_min[0],
+              maxTemp: dailyWeather.temperature_2m_max[0],
+              ...this.weatherService.translateWeatherCode(currentWeather.weathercode),
+            };
+          },
+          error: (error) => {
+            console.error(`Erreur lors de la récupération des données pour ${city.name}:`, error);
+          }
+        });
+    });
+  }
+
+  async removeFavorite(cityName: string) {
+    this.favorisService.removeFavorite(cityName);
+    this.loadFavorites();
+  }
+
+  viewCityDetails(city: any) {
     this.router.navigate(['/detail-ville'], {
       queryParams: {
         city: city.name,

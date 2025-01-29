@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router  } from '@angular/router';
 import { WeatherService } from '../../services/weather.service';
 
 @Component({
@@ -13,27 +13,27 @@ import { WeatherService } from '../../services/weather.service';
 })
 export class DetailVillePage {
   cityName: string = '';
-  forecast: any[] = [];
+  latitude: number = 0;
+  longitude: number = 0;
 
-  constructor(
-    private route: ActivatedRoute,
-    private weatherService: WeatherService
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
+    // Récupérer les paramètres de la ville
     this.route.queryParams.subscribe((params) => {
-      const latitude = params['latitude'];
-      const longitude = params['longitude'];
       this.cityName = params['city'];
+      this.latitude = params['latitude'];
+      this.longitude = params['longitude'];
+    });
+  }
 
-      // Obtenir les prévisions météo
-      this.weatherService.getForecastByCity(latitude, longitude).subscribe((data: any) => {
-        this.forecast = data.daily.time.map((date: string, index: number) => ({
-          date,
-          temp_max: data.daily.temperature_2m_max[index],
-          temp_min: data.daily.temperature_2m_min[index],
-        }));
-      });
+  goToPrevisions() {
+    this.router.navigate(['/previsions'], {
+      queryParams: {
+        city: this.cityName,
+        latitude: this.latitude,
+        longitude: this.longitude,
+      },
     });
   }
 }

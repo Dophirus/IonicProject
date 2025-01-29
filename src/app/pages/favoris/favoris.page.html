@@ -1,23 +1,33 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil"></ion-back-button>
+    </ion-buttons>
     <ion-title>Favoris</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6" *ngFor="let city of favoriteCities">
-        <ion-card (click)="viewCityDetails(city)">
-          <ion-card-header>
-            <ion-card-title>{{ city.name }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <p>Température : {{ cityWeather[city.name]?.temperature || '--' }}°C</p>
-            <p>Code météo : {{ cityWeather[city.name]?.weathercode || '--' }}</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-list>
+    <ion-item *ngFor="let city of favoriteCities">
+      <ion-icon [name]="cityWeather[city.name]?.icon" slot="start" size="large"></ion-icon>
+      <ion-label>
+        <h2>{{ city.name }}</h2>
+        <p>{{ cityWeather[city.name]?.description || 'Données indisponibles' }}</p>
+        <p>Température actuelle : {{ cityWeather[city.name]?.temperature || '--' }}°C</p>
+        <p>
+          Min : {{ cityWeather[city.name]?.minTemp || '--' }}°C | Max :
+          {{ cityWeather[city.name]?.maxTemp || '--' }}°C
+        </p>
+      </ion-label>
+      <ion-button color="danger" (click)="removeFavorite(city.name)">
+        Retirer
+      </ion-button>
+      <ion-button slot="end" (click)="viewCityDetails(city)">Voir</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <div *ngIf="favoriteCities.length === 0">
+    <p>Aucune ville en favori pour le moment.</p>
+  </div>
 </ion-content>

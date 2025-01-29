@@ -1,13 +1,27 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>previsions</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/detail-ville"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Prévisions pour {{ cityName }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">previsions</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div *ngIf="previsions && previsions.length > 0; else loading">
+    <ion-list>
+      <ion-item *ngFor="let day of previsions">
+        <ion-icon [name]="day.icon" slot="start" size="large"></ion-icon>
+        <ion-label>
+          <h2>{{ day.date }}</h2>
+          <p>{{ day.description }}</p>
+          <p>Min : {{ day.minTemp }}°C | Max : {{ day.maxTemp }}°C</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ng-template #loading>
+    <p>Chargement des prévisions météo...</p>
+  </ng-template>
 </ion-content>

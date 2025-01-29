@@ -14,4 +14,24 @@
       <ion-label>Voir les favoris</ion-label>
     </ion-item>
   </ion-list>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Météo actuelle <span *ngIf="cityName">- {{ cityName }}</span>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div *ngIf="weather; else loading">
+        <div class="weather-info">
+          <ion-icon [name]="weather.icon" size="large"></ion-icon>
+          <h2>{{ weather.description }}</h2>
+          <p>Température actuelle : {{ weather.temperature }}°C</p>
+        </div>
+      </div>
+      <ng-template #loading>
+        <p>Chargement des données météo...</p>
+      </ng-template>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
